@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -79,6 +78,10 @@
             line-height: 1.5;
         }
 
+        .text-element {
+            position: relative; /* Для позиционирования эффектов */
+        }
+
         .text-splash {
             animation: splashEffect 0.6s ease-out;
         }
@@ -92,6 +95,30 @@
             }
         }
 
+        .ripple-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(135, 206, 235, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: ripple 0.8s ease-out forwards;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
         .buttons {
             display: flex;
             gap: 15px;
@@ -101,30 +128,24 @@
 
         button {
             padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
             font-size: 1em;
             cursor: pointer;
             border-radius: 25px;
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2),
+                       0 0 10px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px);
+            transform: scale(1);
         }
 
         button:hover {
-            background: rgba(52, 152, 219, 0.2);
-            box-shadow: 0 0 20px rgba(52, 152, 219, 0.8);
-            animation: glow-pulse 1.5s infinite alternate;
-        }
-
-        @keyframes glow-pulse {
-            from {
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(52, 152, 219, 0.8);
-            }
-            to {
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(52, 152, 219, 1);
-            }
+            background: rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3),
+                       0 0 20px rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
         }
 
         #particles-js {
@@ -146,197 +167,223 @@
             pointer-events: none;
         }
 
-
-/* Стили для снежинок в particles.js */
         #particles-js canvas {
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
         }
     </style>
 </head>
 <body>
-<div id="particles-js"></div>
-<canvas id="rain-canvas"></canvas>
-<div class="container">
-    <img src="https://i.pinimg.com/originals/e9/0e/f3/e90ef35f2b95f76e76b26048391886ac.jpg" alt="Profile Photo" class="profile-pic">
-    <h1>Привет! Я [Имя]</h1>
-    <p>Это мой стильный профиль. Расскажу о себе...</p>
-    <div class="buttons">
-        <button onclick="alert('Круто, что зашёл!')">Обо мне</button>
-        <button onclick="window.open('mailto:your@email.com')">Связаться</button>
+    <div id="particles-js"></div>
+    <canvas id="rain-canvas"></canvas>
+    <div class="container">
+        <img src="https://i.pinimg.com/originals/e9/0e/f3/e90ef35f2b95f76e76b26048391886ac.jpg" alt="Profile Photo" class="profile-pic">
+        <h1 class="text-element">Привет! Я MrKartoshka</h1>
+        <p class="text-element">Это мой стильный профиль...</p>
+        <div class="buttons">
+            <button onclick="alert('Я люблю машинки')">Мой фетиш</button>
+            <button onclick="window.open('https://t.me/Dosb01', '_blank'); return false;">Связаться</button>
+        </div>
     </div>
-</div>
 
-<script>
-    // Инициализация particles.js для снега
-    window.addEventListener('load', function() {
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 150 }, // Увеличено для большей частоты (больше снежинок)
-                color: { value: '#ffffff' },
-                shape: { type: ['star', '❄'] }, // Звёздочки или снежинки
-                opacity: {
-                    value: 0.8,
-                    random: true,
-                    anim: { enable: false }
-                },
-                size: {
-                    value: 4, // Увеличен базовый размер для большего снега
-                    random: true,
-                    anim: { enable: false }
-                },
-                line_linked: { enable: false },
-                move: {
-                    enable: true,
-                    speed: 1,
-                    direction: 'bottom',
-                    random: true,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                },
-                interactivity: {
-                    detect_on: 'canvas',
-                    events: {
-                        onhover: { enable: true, mode: 'repulse' },
-                        onclick: { enable: true, mode: 'push', nb: 4 },
-                        resize: true
+    <script>
+        console.log('Script.js загружен!'); // Проверка: если это не видно в консоли, путь к файлу сломан
+
+        // Инициализация particles.js для снега
+        window.addEventListener('load', function() {
+            console.log('Страница загружена, запускаем эффекты');
+
+            if (typeof particlesJS === 'function') {
+                console.log('particles.js найден, создаём снег...');
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 150 },
+                        color: { value: '#ffffff' },
+                        shape: { type: 'circle' },
+                        opacity: {
+                            value: 0.8,
+                            random: true,
+                            anim: { enable: false }
+                        },
+                        size: {
+                            value: 4,
+                            random: true,
+                            anim: { enable: false }
+                        },
+                        line_linked: { enable: false },
+                        move: {
+                            enable: true,
+                            speed: 1,
+                            direction: 'bottom',
+                            random: true,
+                            straight: false,
+                            out_mode: 'out',
+                            bounce: false
+                        },
+                        interactivity: {
+                            detect_on: 'canvas',
+                            events: {
+                                onhover: { enable: true, mode: 'repulse' },
+                                onclick: { enable: true, mode: 'push', nb: 4 },
+                                resize: true
+                            },
+                            modes: {
+                                repulse: { distance: 100, duration: 0.4 },
+                                push: { particles_nb: 4 }
+                            }
+                        }
                     },
-                    modes: {
-                        repulse: { distance: 100, duration: 0.4 },
-                        push: { particles_nb: 4 }
-                    }
+                    retina_detect: true
+                });
+                console.log('Снег создан!');
+            } else {
+                console.error('particles.js не найден — проверь интернет или CDN');
+            }
+
+            // GSAP для ротации снежинок
+            setTimeout(function() {
+                const particles = document.querySelectorAll('#particles-js .js-particle');
+                if (particles.length > 0 && typeof gsap !== 'undefined') {
+                    gsap.to(particles, {
+                        rotation: 360,
+                        duration: 10,
+                        repeat: -1,
+                        stagger: 0.1,
+                        ease: "none"
+                    });
+                    console.log('GSAP ротация запущена');
+                } else {
+                    console.log('GSAP или частицы не готовы');
                 }
-            },
-            retina_detect: true
+            }, 500);
+
+            // Инициализация дождя на Canvas
+            initCanvasRain();
         });
 
-        // GSAP для вращения снежинок (применяем к частицам после инициализации)
-        setTimeout(() => {
-            const particles = document.querySelectorAll('#particles-js .js-particle');
-            gsap.to(particles, {
-                rotation: 360,
-                duration: 10,
-                repeat: -1,
-                stagger: 0.1,
-                ease: "none"
-            });
-        }, 100);
-
-        // Инициализация дождя
-        initRain();
-    });
-
-    // Адаптация на resize
-    window.addEventListener('resize', function() {
-        const canvas = document.getElementById('rain-canvas');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        // Переинициализация частиц при resize (particles.js автоматически)
-    });
-
-    // Реалистичный дождь на Canvas
-    function initRain() {
-        const canvas = document.getElementById('rain-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const drops = [];
-        const numDrops = 150;
-
-        class Drop {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-
-
-this.y = Math.random() * -canvas.height;
-                this.length = Math.random() * 10 + 5;
-                this.speedY = Math.random() * 2 + 1;
-                this.speedX = (Math.random() - 0.5) * 1.5; // Ветер -0.75 до +0.75
-                this.thickness = Math.random() * 1 + 0.5;
-                this.opacity = Math.random() * 0.2 + 0.4;
-                this.gravity = 0.1;
-                this.wind = (Math.random() - 0.5) * 1.5;
+        // Адаптация на resize
+        window.addEventListener('resize', function() {
+            const canvas = document.getElementById('rain-canvas');
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                console.log('Размер окна изменён');
             }
+        });
 
-            update() {
-                this.speedY += this.gravity;
-                this.x += this.speedX + this.wind;
-                this.y += this.speedY;
+        // Canvas дождь
+        let animationId;
+        function initCanvasRain() {
+            const canvas = document.getElementById('rain-canvas');
+            if (!canvas) {
+                console.error('Canvas не найден!');
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error('Контекст Canvas не создан!');
+                return;
+            }
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            console.log('Canvas инициализирован, создаём капли...');
 
-                if (this.y > canvas.height) {
-                    this.createSplash();
-                    this.reset();
+            const drops = [];
+            const numDrops = 150;
+
+            class Drop {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * -canvas.height;
+                    this.length = Math.random() * 10 + 5;
+                    this.speedY = Math.random() * 2 + 1;
+                    this.speedX = (Math.random() - 0.5) * 1.5;
+                    this.thickness = Math.random() * 1 + 0.5;
+                    this.opacity = Math.random() * 0.2 + 0.4;
+                    this.gravity = 0.1;
+                    this.wind = (Math.random() - 0.5) * 1.5;
                 }
-            }
 
-            draw() {
-                const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.length);
-                gradient.addColorStop(0, 'rgba(70, 130, 180, ' + this.opacity + ')');
-                gradient.addColorStop(1, 'rgba(135, 206, 235, ' + this.opacity + ')');
+                update() {
+                    this.speedY += this.gravity;
+                    this.x += this.speedX + this.wind;
+                    this.y += this.speedY;
 
-                ctx.shadowBlur = 1;
-                ctx.shadowColor = 'rgba(135, 206, 235, 0.5)';
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x, this.y + this.length);
-                ctx.lineWidth = this.thickness;
-                ctx.strokeStyle = gradient;
-                ctx.stroke();
-                ctx.shadowBlur = 0;
-            }
+                    if (this.y > canvas.height) {
+                        this.createSplash();
+                        this.reset();
+                    }
+                    if (this.x < 0 || this.x > canvas.width) {
+                        this.reset();
+                    }
+                }
 
-            reset() {
-                this.y = Math.random() * -50;
-                this.x = Math.random() * canvas.width;
-                this.speedY = Math.random() * 2 + 1;
-            }
+                draw() {
+                    const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.length);
+                    gradient.addColorStop(0, 'rgba(70, 130, 180, ' + this.opacity + ')');
+                    gradient.addColorStop(1, 'rgba(135, 206, 235, ' + this.opacity + ')');
 
-            createSplash() {
-                const splashSize = Math.random() * 4 + 2;
-                ctx.beginPath();
-                ctx.arc(this.x, canvas.height, splashSize, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(135, 206, 235, 0.6)';
-                ctx.shadowBlur = 2;
-                ctx.shadowColor = 'rgba(135, 206, 235, 0.8)';
-                ctx.fill();
-                ctx.shadowBlur = 0;
+                    ctx.shadowBlur = 1;
+                    ctx.shadowColor = 'rgba(135, 206, 235, 0.5)';
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.x, this.y + this.length);
+                    ctx.lineWidth = this.thickness;
+                    ctx.strokeStyle = gradient;
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                }
 
-                // Эффект на текст: 15% шанс
-                if (Math.random() < 0.15) {
-                    const elements = [document.querySelector('h1'), document.querySelector('p')];
-                    const randomElement = elements[Math.floor(Math.random() * elements.length)];
-                    if (randomElement) {
-                        randomElement.classList.add('text-splash');
-                        setTimeout(() => randomElement.classList.remove('text-splash'), 600);
+                reset() {
+                    this.y = Math.random() * -50;
+                    this.x = Math.random() * canvas.width;
+                    this.speedY = Math.random() * 2 + 1;
+                }
+
+                createSplash() {
+                    const splashSize = Math.random() * 4 + 2;
+                    ctx.beginPath();
+                    ctx.arc(this.x, canvas.height, splashSize, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(135, 206, 235, 0.6)';
+                    ctx.shadowBlur = 2;
+                    ctx.shadowColor = 'rgba(135, 206, 235, 0.8)';
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+
+                    if (Math.random() < 0.15) {
+                        const elements = [document.querySelector('h1'), document.querySelector('p')];
+                        const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                        if (randomElement) {
+                            randomElement.classList.add('text-splash');
+                            setTimeout(function() {
+                                randomElement.classList.remove('text-splash');
+                            }, 600);
+                        }
                     }
                 }
             }
+
+            for (let i = 0; i < numDrops; i++) {
+                drops.push(new Drop());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drops.forEach(function(drop) {
+                    drop.update();
+                    drop.draw();
+                });
+                animationId = requestAnimationFrame(animate);
+            }
+
+            animate();
+            console.log('Дождь запущен!');
         }
 
-        // Создание капель
-        for (let i = 0; i < numDrops; i++) {
-            drops.push(new Drop());
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drops.forEach(drop => {
-                drop.update();
-                drop.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-    }
-
-    // Обработка resize для canvas
-    window.addEventListener('resize', () => {
-        const canvas = document.getElementById('rain-canvas');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-</script>
+        window.addEventListener('beforeunload', function() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+        });
+    </script>
 </body>
 </html>
