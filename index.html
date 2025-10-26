@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Профиль</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- TG SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> <!-- GSAP -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            animation: fadeIn 1s ease-in;
+            position: relative;
+            overflow: hidden;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .profile-pic {
+            width: 150px; height: 150px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.3s; z-index: 10;
+        }
+        .profile-pic:hover { transform: scale(1.05); }
+        h1 { font-size: 2.5em; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); z-index: 10; }
+        p { font-size: 1.2em; text-align: center; margin: 10px 0; opacity: 0.85; z-index: 10; }
+        .button {
+            background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: #e0e0e0;
+            padding: 15px 30px; border-radius: 50px; font-size: 1.1em; cursor: pointer; margin: 10px;
+            transition: background 0.3s, transform 0.3s; z-index: 10;
+        }
+        .button:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+        @media (max-width: 600px) { body { padding: 10px; } h1 { font-size: 2em; } }
+
+        /* Дождь: 20 капель */
+        .raindrop {
+            position: absolute; top: -10px; width: 2px; height: 20px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.5));
+            animation: rain linear infinite; z-index: 1;
+        }
+        @keyframes rain {
+            to { transform: translateY(100vh); }
+        }
+        .raindrop:nth-child(1) { left: 5%; animation-duration: 0.5s; }
+        .raindrop:nth-child(2) { left: 15%; animation-duration: 0.6s; animation-delay: 0.1s; height: 25px; }
+        .raindrop:nth-child(3) { left: 25%; animation-duration: 0.4s; height: 18px; }
+        .raindrop:nth-child(4) { left: 35%; animation-duration: 0.7s; animation-delay: 0.2s; }
+        .raindrop:nth-child(5) { left: 45%; animation-duration: 0.5s; height: 22px; }
+        .raindrop:nth-child(6) { left: 55%; animation-duration: 0.3s; }
+        .raindrop:nth-child(7) { left: 65%; animation-duration: 0.6s; animation-delay: 0.05s; height: 20px; }
+        .raindrop:nth-child(8) { left: 75%; animation-duration: 0.4s; }
+        .raindrop:nth-child(9) { left: 85%; animation-duration: 0.8s; animation-delay: 0.15s; }
+        .raindrop:nth-child(10) { left: 95%; animation-duration: 0.5s; height: 24px; }
+        .raindrop:nth-child(11) { left: 10%; animation-duration: 0.55s; animation-delay: 0.3s; }
+        .raindrop:nth-child(12) { left: 20%; animation-duration: 0.45s; height: 19px; }
+        .raindrop:nth-child(13) { left: 30%; animation-duration: 0.65s; }
+        .raindrop:nth-child(14) { left: 40%; animation-duration: 0.35s; animation-delay: 0.25s; height: 23px; }
+        .raindrop:nth-child(15) { left: 50%; animation-duration: 0.75s; }
+        .raindrop:nth-child(16) { left: 60%; animation-duration: 0.4s; height: 21px; }
+        .raindrop:nth-child(17) { left: 70%; animation-duration: 0.5s; animation-delay: 0.4s; }
+
+
+.raindrop:nth-child(18) { left: 80%; animation-duration: 0.6s; }
+        .raindrop:nth-child(19) { left: 90%; animation-duration: 0.45s; height: 17px; }
+        .raindrop:nth-child(20) { left: 0%; animation-duration: 0.7s; animation-delay: 0.35s; }
+    </style>
+</head>
+<body>
+    <!-- Дождь: 20 div'ов -->
+    <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+    <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+    <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+    <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+
+    <img src="https://example.com/your-photo.jpg" alt="Фото профиля" class="profile-pic"> <!-- Замени на свою ссылку -->
+    <h1>Привет! Я [Твоё Имя]</h1>
+    <p>Это мой стильный профиль в Telegram. Расскажу о себе...</p>
+    <button class="button" onclick="alert('Круто, что зашёл!')">Обо мне</button>
+    <button class="button" onclick="Telegram.WebApp.showAlert('Спасибо за визит!')">Связаться</button>
+
+    <script>
+        // TG интеграция
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+        Telegram.WebApp.MainButton.setText('Закрыть').show().onClick(() => Telegram.WebApp.close());
+
+        // GSAP-снег
+        function createGSAPSnow() {
+            const snowSymbols = ['❄', '❅', '❆', '*', '✻'];
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.innerHTML = snowSymbols[Math.floor(Math.random() * snowSymbols.length)];
+                snowflake.style.cssText = 
+                    position: absolute; left: ${Math.random() * 100}vw; top: -10px;
+                    font-size: ${Math.random() * 20 + 10}px; color: #fff; opacity: ${Math.random() * 0.5 + 0.5};
+                    pointer-events: none; z-index: 1;
+                ;
+                document.body.appendChild(snowflake);
+
+                gsap.to(snowflake, {
+                    y: window.innerHeight + 10,
+                    x: "+=" + (Math.random() * 40 - 20),
+                    rotation: Math.random() * 720 - 360,
+                    duration: Math.random() * 10 + 5,
+                    ease: "power2.inOut",
+                    repeat: -1,
+                    delay: Math.random() * 2
+                });
+            }
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(".snowflake", {
+                x: "+=" + (e.clientX / 50 - 10),
+                duration: 0.5,
+                yoyo: true,
+                repeat: 1
+            });
+        });
+
+        createGSAPSnow();
+    </script>
+</body>
+</html>
