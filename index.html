@@ -1,12 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой Профиль</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- TG SDK -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script> <!-- GSAP -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -68,42 +67,35 @@
         .raindrop:nth-child(16) { left: 60%; animation-duration: 0.4s; height: 21px; }
         .raindrop:nth-child(17) { left: 70%; animation-duration: 0.5s; animation-delay: 0.4s; }
 
-
 .raindrop:nth-child(18) { left: 80%; animation-duration: 0.6s; }
         .raindrop:nth-child(19) { left: 90%; animation-duration: 0.45s; height: 17px; }
         .raindrop:nth-child(20) { left: 0%; animation-duration: 0.7s; animation-delay: 0.35s; }
     </style>
 </head>
 <body>
-    <!-- Дождь: 20 div'ов -->
+    <!-- Дождь -->
     <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
     <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
     <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
     <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
 
-    <img src="https://example.com/your-photo.jpg" alt="Фото профиля" class="profile-pic"> <!-- Замени на свою ссылку -->
+    <img src="https://example.com/your-photo.jpg" alt="Фото профиля" class="profile-pic">
     <h1>Привет! Я [Твоё Имя]</h1>
     <p>Это мой стильный профиль в Telegram. Расскажу о себе...</p>
     <button class="button" onclick="alert('Круто, что зашёл!')">Обо мне</button>
     <button class="button" onclick="Telegram.WebApp.showAlert('Спасибо за визит!')">Связаться</button>
 
     <script>
-        // TG интеграция
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
         Telegram.WebApp.MainButton.setText('Закрыть').show().onClick(() => Telegram.WebApp.close());
 
-        // GSAP-снег
         function createGSAPSnow() {
             const snowSymbols = ['❄', '❅', '❆', '*', '✻'];
             for (let i = 0; i < 50; i++) {
                 const snowflake = document.createElement('div');
                 snowflake.innerHTML = snowSymbols[Math.floor(Math.random() * snowSymbols.length)];
-                snowflake.style.cssText = 
-                    position: absolute; left: ${Math.random() * 100}vw; top: -10px;
-                    font-size: ${Math.random() * 20 + 10}px; color: #fff; opacity: ${Math.random() * 0.5 + 0.5};
-                    pointer-events: none; z-index: 1;
-                ;
+                snowflake.style.cssText = position: absolute; left: ${Math.random() * 100}vw; top: -10px; font-size: ${Math.random() * 20 + 10}px; color: #fff; opacity: ${Math.random() * 0.5 + 0.5}; pointer-events: none; z-index: 1;;
                 document.body.appendChild(snowflake);
 
                 gsap.to(snowflake, {
@@ -119,12 +111,7 @@
         }
 
         document.addEventListener('mousemove', (e) => {
-            gsap.to(".snowflake", {
-                x: "+=" + (e.clientX / 50 - 10),
-                duration: 0.5,
-                yoyo: true,
-                repeat: 1
-            });
+            gsap.to(".snowflake", { x: "+=" + (e.clientX / 50 - 10), duration: 0.5, yoyo: true, repeat: 1 });
         });
 
         createGSAPSnow();
